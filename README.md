@@ -1,45 +1,25 @@
-# Laravel Inventory Management System
+# Online Store Inventory Management System
 
-A simple online store inventory management system that allows store owners to track product stock, view sales statistics, and manage orders efficiently.
+## Technologies
+Laravel, PHP, MySQL, Bootstrap, jQuery
 
-## Technologies Used
+## Description
+Simple inventory management system for online stores that allows store owners to track product stock, view sales statistics, and manage orders.
 
-- **Laravel**: PHP Framework
-- **MySQL**: Database
-- **Bootstrap**: Frontend Framework
-- **jQuery**: JavaScript Library
-- **Chart.js**: For sales statistics visualization
+## Main Features
+- Dashboard admin with real-time statistics
+- Product and category management
+- Stock tracking and low stock notifications
+- Weekly/monthly sales reports
 
-## Features
-
-- **Admin Dashboard with Real-Time Statistics**
-  - Quick overview of sales, inventory, and order metrics
-  - 7-day sales chart
-  - Low stock product alerts
-
-- **Product & Category Management**
-  - Create, read, update, and delete products and categories
-  - Product image upload and management
-  - Inventory tracking
-
-- **Stock Tracking & Notifications**
-  - Automatic low stock detection
-  - Email notifications when stock falls below threshold
-  - Visual indicators for product stock status
-
-- **Sales Reports**
-  - Weekly/monthly sales reports
-  - Filter reports by date range
-  - Export options (PDF/Excel)
-
-## Project Structure
+## Directory Structure
 
 ```
 inventory-system/
 │
-├── app/                                # Core application code
+├── app/                                # Main application code
 │   ├── Http/
-│   │   ├── Controllers/                # Request handlers
+│   │   ├── Controllers/                # Controllers to handle requests
 │   │   │   ├── ProductController.php
 │   │   │   ├── CategoryController.php
 │   │   │   ├── OrderController.php
@@ -61,7 +41,7 @@ inventory-system/
 ├── config/                             # Configuration files
 ├── database/
 │   ├── migrations/                     # Database migrations
-│   └── seeders/                        # Database seeders
+│   └── seeders/                        # Initial database data
 │
 ├── public/                             # Public files
 │   ├── css/
@@ -69,7 +49,7 @@ inventory-system/
 │   └── images/
 │
 ├── resources/
-│   ├── views/                          # Blade view files
+│   ├── views/                          # View files (blade)
 │   │   ├── dashboard/
 │   │   ├── products/
 │   │   ├── categories/
@@ -87,49 +67,76 @@ inventory-system/
 └── vendor/                             # Dependencies (managed by Composer)
 ```
 
-## Database Schema
+## Database Design
 
-The system uses the following database tables:
+### Tables and Relations
 
-- **users**: Admin user data
-- **categories**: Product categories
-- **products**: Product data with stock information
-- **orders**: Order data including customer information
-- **order_items**: Items within orders
+- **users** - Stores admin user data
+  - id (primary key)
+  - name
+  - email
+  - password
+  - remember_token
+  - timestamps
 
-## Installation & Setup
+- **categories** - Product categories
+  - id (primary key)
+  - name
+  - description
+  - timestamps
+
+- **products** - Product data
+  - id (primary key)
+  - category_id (foreign key to categories)
+  - name
+  - description
+  - price
+  - stock_quantity
+  - min_stock_threshold (for low stock notifications)
+  - image_path
+  - timestamps
+
+- **orders** - Order data
+  - id (primary key)
+  - order_number
+  - customer_name
+  - customer_email
+  - customer_phone
+  - status (pending, processing, completed, cancelled)
+  - total_amount
+  - timestamps
+
+- **order_items** - Items in orders
+  - id (primary key)
+  - order_id (foreign key to orders)
+  - product_id (foreign key to products)
+  - quantity
+  - price (price at purchase time)
+  - timestamps
+
+## Installation and Setup
 
 ### Prerequisites
-
 - PHP >= 7.4
 - Composer
 - MySQL
 - Node.js & NPM
 
 ### Installation Steps
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/Laravel-Inventory-Management-System.git
-   cd Laravel-Inventory-Management-System
-   ```
-
+1. Clone or download project
 2. Install PHP dependencies
    ```bash
    composer install
    ```
-
 3. Install JavaScript dependencies
    ```bash
    npm install && npm run dev
    ```
-
-4. Set up environment file
+4. Setup .env file
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-
 5. Configure database in .env file
    ```
    DB_CONNECTION=mysql
@@ -139,39 +146,64 @@ The system uses the following database tables:
    DB_USERNAME=root
    DB_PASSWORD=
    ```
-
 6. Run migrations and seeders
    ```bash
    php artisan migrate --seed
    ```
-
 7. Create storage symbolic link
    ```bash
    php artisan storage:link
    ```
-
-8. Start the application
+8. Run the application
    ```bash
    php artisan serve
    ```
-
-9. Access the application at http://localhost:8000
-
-10. Login with default credentials
+9. Access application in browser
+   - http://localhost:8000
+10. Login with default account
     - Email: admin@example.com
     - Password: password
 
-## Testing
+## Testing Main Features
 
-The system's main features can be tested as follows:
+### 1. Admin Dashboard
+- What to test: Real-time statistics display and charts
+- Testing method:
+  - Login to system
+  - Check if all statistics and charts display correctly
+  - Create new order and see if statistics update
 
-1. **Admin Dashboard**: Verify all statistics and charts display correctly
-2. **Product Management**: Test CRUD operations for products and categories
-3. **Stock Tracking**: Test low stock notifications by adjusting product quantities
-4. **Sales Reports**: Generate and filter sales reports by date range
+### 2. Product and Category Management
+- What to test: CRUD operations for products and categories
+- Testing method:
+  - Create new category
+  - Add new product in that category
+  - Edit product and category
+  - Delete product and category
+  - Verify all changes are reflected in database and display
 
-## Future Enhancements
+### 3. Stock Tracking and Notifications
+- What to test: Stock tracking and low stock notification features
+- Testing method:
+  - Edit product stock to below minimum threshold
+  - Check if product appears in "Low Stock" list on dashboard
+  - Check if email notification is sent (check email log in storage/logs)
+  - Add stock and verify status changes to "Sufficient Stock"
 
-- E-commerce platform integration
-- Supplier management
-- Advanced analytics
+### 4. Sales Reports
+- What to test: Weekly/monthly sales reports
+- Testing method:
+  - Create several new orders
+  - Access sales report page
+  - Filter report by date
+  - Export report in PDF or Excel format (if feature is available)
+  - Verify report data is accurate and matches filters
+
+## Conclusion
+This Online Store Inventory Management System built with Laravel, PHP, MySQL, Bootstrap, and jQuery includes all the main features requested:
+- Admin dashboard with real-time statistics
+- Product and category management
+- Stock tracking and low stock notifications
+- Weekly/monthly sales reports
+
+This system is simple but functional, suitable for small to medium online stores. With some further development, the system can be enhanced by adding features such as e-commerce platform integration, supplier management, or barcode/QR code features.
