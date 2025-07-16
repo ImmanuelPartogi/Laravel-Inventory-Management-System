@@ -1,7 +1,7 @@
 # Online Store Inventory Management System
 
 ## Technologies
-Laravel, PHP, MySQL, Bootstrap, jQuery
+Laravel 12, PHP, MySQL, Bootstrap, jQuery
 
 ## Description
 Simple inventory management system for online stores that allows store owners to track product stock, view sales statistics, and manage orders.
